@@ -24,13 +24,15 @@ either the [tokio runtime](https://tokio.rs/) or leverage `std:future` etc.
 Install via
 
 
-```cargo add eodhd-rs```
+```cargo add eodhd_rs```
 
 
 or add to your `Cargo.toml`
 
 
-```"eodhd-rs" = "0.1.0"```
+```
+eodhd_rs = "0.1.0"
+```
 
 
 For authentication purposes set the environment
