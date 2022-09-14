@@ -90,7 +90,6 @@ pub async fn get_end_of_period(
         }
     }
 
-    debug!("{}", url);
     let request = reqwest::get(url).await;
 
     if request.is_err() {
