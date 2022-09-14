@@ -40,7 +40,7 @@ variable `EODHD_TOKEN` to your token.
 
 ### End of Period, HistoricIntraday
 
-```
+```rust
 use eodhd_rs::datetime::{EODHDDate, EODHDInterval};
 use eodhd_rs::end_of_period::{EODHDEndOfPeriodFilter, EODHDPeriod};
 use eodhd_rs::historic_intraday::HistoricIntradayOptions;
@@ -86,7 +86,7 @@ async fn main() {
 
 ### Realtime 
 
-```
+```rust
 use eodhd_rs::realtime::socket::{EODHDSocketKind, subscribe_rt, unsubscribe_rt};
 use eodhd_rs::realtime::us::{get_n_us_quote, get_n_us_trade};
 
