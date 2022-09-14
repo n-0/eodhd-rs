@@ -1,5 +1,3 @@
-/*{"type":"Earnings","description":"Historical and upcoming Earnings","from":"2022-1-02","to":"2022-7-06","earnings":[{"code":"NEX.US","report_date":"2022-01-03","date":"2021-12-31","before_after_market":"AfterMarket","currency":"USD","actual":0.08,"estimate":-0.06,"difference":0.14,"percent":233.3333},{"code":"PLL.US","report_date":"2022-01-03","date":"2021-12-31","before_after_market":"AfterMarket","currency":"USD","actual":-0.01,"estimate":-0.46,"difference":0.45,"percent":97.8261},{"code":"0010.HK","report_date":"2022-01-04","date":"2021-12-31","before_after_market":null,"currency":"HKD","actual":0.79,"estimate":null,"difference":null,"percent":null},*/
-
 use chrono::NaiveDate;
 use log::{debug, warn};
 use serde::{Deserialize, Serialize};
@@ -28,10 +26,11 @@ pub struct EODHDEarnings {
 }
 
 pub struct EODHDEarningsFilter {
-    // The start date for earnings data, if not provided, today will be used.
+    /// The start date for earnings data, if not provided, today will be used.
     from: Option<chrono::NaiveDate>,
-    // The end date for earnings data, if not provided, today + 7 days will be used.
+    /// The end date for earnings data, if not provided, today + 7 days will be used.
     to: Option<chrono::NaiveDate>,
+    /// or tickers
     symbols: Option<Vec<String>>,
 }
 

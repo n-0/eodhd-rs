@@ -7,17 +7,20 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub enum EODHDEconomicEventComparison {
-    mom,
-    qoq,
-    yoy,
+    #[serde(rename = "mom")]
+    MOM,
+    #[serde(rename = "qoq")]
+    QOQ,
+    #[serde(rename = "yoy")]
+    YOY,
 }
 
 impl ToString for EODHDEconomicEventComparison {
     fn to_string(&self) -> String {
         (match self {
-            EODHDEconomicEventComparison::mom => "mom",
-            EODHDEconomicEventComparison::qoq => "qoq",
-            EODHDEconomicEventComparison::yoy => "yoy",
+            EODHDEconomicEventComparison::MOM => "mom",
+            EODHDEconomicEventComparison::QOQ => "qoq",
+            EODHDEconomicEventComparison::YOY => "yoy",
         })
         .to_string()
     }

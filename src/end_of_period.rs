@@ -1,5 +1,5 @@
-use chrono::{DateTime, NaiveDate};
-use log::{debug, warn};
+use chrono::NaiveDate;
+use log::warn;
 use serde::{Deserialize, Serialize};
 
 use super::{env_eodhd_token, EODHDError};

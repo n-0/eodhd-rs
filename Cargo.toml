@@ -2,6 +2,13 @@
 name = "eodhd_rs"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "A community rust wrapper around the EODHD API"
+keywords = ["economics", "stock", "api", "eodhd"]
+categories = ["api-bindings"]
+readme = "README.md"
+homepage = "https://github.com/n-0/eodhd-rs"
+repository = "https://github.com/n-0/eodhd-rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -32,3 +39,7 @@ uuid = { version = "1.1.2", features = [
     "fast-rng", 
     "macro-diagnostics", 
 ]}
+
+[lib]
+name = "eodhd_rs"
+path = "src/lib.rs"

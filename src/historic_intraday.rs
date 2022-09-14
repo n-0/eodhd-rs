@@ -48,7 +48,7 @@ pub struct HistoricIntradayOptions {
 }
 
 pub async fn get_historic_intraday(
-    ticker: String,
+    ticker: &str,
     options: HistoricIntradayOptions,
 ) -> Result<Vec<EODHDHistoricIntraday>, Box<dyn Error>> {
     let token = env_eodhd_token();
@@ -59,33 +59,38 @@ pub async fn get_historic_intraday(
         token = token,
         interval = options.interval.to_string()
     );
-    if options.from.is_some() {
-        url = format!("{url}&from={from}", url = url, from = options.from.unwrap());
+
+    if let Some(from) = options.from {
+        url = format!("{url}&from={from}", url = url, from = from);
     }
-    if options.to.is_some() {
-        url = format!("{url}&to={to}", url = url, to = options.to.unwrap());
+    if let Some(to) = options.to {
+        url = format!("{url}&to={to}", url = url, to = to);
     }
 
     let request = reqwest::get(url.clone()).await;
-    if request.is_err() {
-        log::error!(
-            "REQUEST TO EODHD FAILED \n{:?}\n with {:?}",
-            url,
-            request.err()
-        );
-        panic!();
-    }
-    let pre_eodhd_ticks = request.unwrap().json::<Vec<EODHDHistoricIntraday>>().await;
-    if pre_eodhd_ticks.is_err() {
-        println!("{:#?}", url);
-        log::error!(
-            "UNABLE TO PARSE eodhd RESPONSE {:?}",
-            pre_eodhd_ticks.unwrap_err()
-        );
-        panic!();
-    }
-    match pre_eodhd_ticks {
-        Ok(ticks) => Ok(ticks),
-        Err(e) => Err(Box::new(e))
+    match request {
+        Ok(request) => {
+            match request.json::<Vec<EODHDHistoricIntraday>>().await {
+                Ok(pre_eodhd_ticks) => {
+                        Ok(pre_eodhd_ticks)
+                },
+                Err(e) => { 
+                    log::error!(
+                        "UNABLE TO PARSE eodhd RESPONSE {:?}",
+                        e
+                    );
+                    Err(Box::new(e))
+                }
+            }
+        },
+        Err(e) => {
+            log::error!(
+                "REQUEST TO EODHD FAILED \n{:?}\n with {:?}",
+                url,
+                e 
+            );
+            Err(Box::new(e))
+
+        }
     }
 }

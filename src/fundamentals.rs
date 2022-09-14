@@ -2,6 +2,11 @@ use super::datetime::eodhd_serde_opt_date;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
+/// EODHDFundamentals type
+/// has way to many fields that
+/// are mostly optional.
+/// Hard to query therefore get functions
+/// on API currently provided
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EODHDFundamentals {
     #[serde(rename = "MarketCapitalization")]
