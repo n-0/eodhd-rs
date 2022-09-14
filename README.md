@@ -36,6 +36,13 @@ or add to your `Cargo.toml`
 For authentication purposes set the environment
 variable `EODHD_TOKEN` to your token.
 
+Furthemore the following dependencies will make your live easier
+```
+chrono = "0.4.22"
+tokio = { version = "1", features = ["full"] }
+tokio-tungstenite = { version = "*", features = ["native-tls"] }
+```
+
 ## Examples
 
 ### End of Period, HistoricIntraday
