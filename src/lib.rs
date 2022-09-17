@@ -39,6 +39,8 @@ impl Display for EODHDError {
 }
 impl Error for EODHDError {}
 
+/// EODHD sometimes encodes floats as strings
+/// in json responses.
 pub mod eodhd_string_float {
     use serde::{self, Deserialize, Deserializer, Serializer};
     pub fn serialize<S>(value: &f64, serializer: S) -> Result<S::Ok, S::Error>

@@ -12,21 +12,16 @@ Currently we support the following API operations
 
 - end of period data
 - history intraday
-- realtime stocks and forex
+- realtime quote/trades/forex/crypto 
 - realtime delayed
-- sentiment
+- news sentiment
 - economic events
 
 all features are provided asynchronously, so you need
 either the [tokio runtime](https://tokio.rs/) or leverage `std:future` etc.
 
 ## Usage
-Install via
-
-
-```cargo add eodhd_rs```
-
-
+Install via `cargo add eodhd_rs`
 or add to your `Cargo.toml`
 
 
@@ -37,12 +32,11 @@ eodhd_rs = "0.1.0"
 
 For authentication purposes set the environment
 variable `EODHD_TOKEN` to your token.
-
-Furthemore the following dependencies will make your live easier
+Furthermore the following dependencies will make your live easier
 ```
+env_logger = "0.9"
 chrono = "0.4.22"
 tokio = { version = "1", features = ["full"] }
-tokio-tungstenite = { version = "*", features = ["native-tls"] }
 ```
 
 ## Examples
@@ -96,32 +90,51 @@ async fn main() {
 ### Realtime 
 
 ```rust
-use eodhd_rs::realtime::socket::{EODHDSocketKind, subscribe_rt, unsubscribe_rt};
-use eodhd_rs::realtime::us::{get_n_us_quote, get_n_us_trade};
+
+use futures::{Stream, StreamExt};
+use eodhd_rs::realtime::{socket::{
+    EODHDSocketKind, 
+    subscribe_rt, 
+    unsubscribe_rt,
+    create_socket_channel
+}, us::EODHDUSQuote, forex::{EODHDForexRT, EODHDCryptoRT}};
 
 #[tokio::main]
 async fn main() {
+    // depending on the log level
+    // you can get insight what is happening
+    // behind the scenes (all messages received
+    // instead of only the ticks)
+    env_logger::init();
 
-    // Warning!!!
-    // the realtime API is still "panicky"
-    let mut channel = subscribe_rt("AAPL", EODHDSocketKind::Quote).await;
-    // takes n quotes from the channel
-    let quotes = get_n_us_quote(20, &mut channel).await;
-    println!("{:#?}", quotes);
-    // yes you should clean up this yourself
-    unsubscribe_rt("AAPL", channel);
+    let mut channel = create_socket_channel::<EODHDCryptoRT>(
+        2, // size of the buffer for received ticks
+        EODHDSocketKind::Crypto // must fit the generic parameter
+    ).await.expect("Failed to create channel");
+    subscribe_rt("BTC-USD", &mut channel).await.expect("Failed to subscribe to ticker");
+    let mut counter = 0;
+    while let Some(tick) = channel.tick_channel.recv().await {
+        println!("Got a forex tick {:#?}", tick);
+        if counter > 10 {
+            break;
+        }
+        counter += 1;
+    }
+    unsubscribe_rt("EURUSD", &mut channel);
 
-    /**
-     * channel is a WebSocketStream<MaybeTlsStream<TcpStream>>
-     * from tokio_tungstenite, we recommend to use the traits of
-     * that package, if you want more fine grained control over reading from the channel.
-    */
+    let mut channel = create_socket_channel::<EODHDUSQuote>(2, EODHDSocketKind::Quote).await.expect("Failed to create channel");
+    subscribe_rt("AAPL", &mut channel).await.expect("Failed to subscribe to ticker");
+    let mut counter = 0;
+    while let Some(tick) = channel.tick_channel.recv().await {
+        println!("Got a quote {:#?}", tick);
+        if counter > 10 {
+            break;
+        }
+        counter += 1;
+    }
 
-    let mut channel = subscribe_rt("AAPL", EODHDSocketKind::Trade).await;
-    let trades = get_n_us_trade(10, &mut channel).await;
-    println!("{:#?}", trades);
-    // yes you should clean up this yourself
-    unsubscribe_rt("AAPL", channel);
+    unsubscribe_rt("AAPL", &mut channel);
+
 }
 ```
 
