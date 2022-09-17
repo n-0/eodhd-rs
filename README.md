@@ -1,4 +1,8 @@
-# eodhd-rs 💹
+# eodhd-rs 💹 
+## [![Latest Version]][crates.io]  [![Docs.rs](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)][docs.rs]
+
+[crates.io]: https://crates.io/crates/eodhd_rs
+[docs.rs]: https://docs.rs/eodhd_rs
 
 The community rust wrapper around the eodhd API!
 You're building the next Warren Buffet as an AI
@@ -25,7 +29,7 @@ Install via `cargo add eodhd_rs`
 or add to your `Cargo.toml`
 
 
-```
+```toml
 eodhd_rs = "0.2.0"
 ```
 
@@ -33,7 +37,7 @@ eodhd_rs = "0.2.0"
 For authentication purposes set the environment
 variable `EODHD_TOKEN` to your token.
 Furthermore the following dependencies will make your live easier
-```
+```toml
 env_logger = "0.9"
 chrono = "0.4.22"
 tokio = { version = "1", features = ["full"] }
