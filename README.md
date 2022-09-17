@@ -1,5 +1,5 @@
 # eodhd-rs 💹 
-## [![Latest Version]][crates.io]  [![Docs.rs](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)][docs.rs]
+## [![Crates.io](https://img.shields.io/crates/v/eodhd_rs)][crates.io]  [![Docs.rs](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)][docs.rs]
 
 [crates.io]: https://crates.io/crates/eodhd_rs
 [docs.rs]: https://docs.rs/eodhd_rs
