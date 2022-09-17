@@ -26,7 +26,7 @@ or add to your `Cargo.toml`
 
 
 ```
-eodhd_rs = "0.1.0"
+eodhd_rs = "0.2.0"
 ```
 
 
