@@ -37,9 +37,16 @@ impl ToString for EODHDSocketKind {
     }
 }
 
+/// A struct owning the necessary
+/// parts to handle a websocket 
+/// realtime connection
 #[derive(Debug)]
 pub struct EODHDRTChannels<T: std::fmt::Debug + Clone + Send + Sync + DeserializeOwned> {
+    /// tokio_tunsgtenites messages can be send to the socket via this channel
+    /// you don't have to do this unless, there are new features in the API
+    /// that are not supported by this library yet.
     pub message_channel: tokio::sync::mpsc::Sender<tokio_tungstenite::tungstenite::Message>,
+    /// receives the actual ticks of the asset from the socket 
     pub tick_channel: tokio::sync::mpsc::Receiver<T>
 }
 
