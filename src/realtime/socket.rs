@@ -10,8 +10,8 @@ use crate::env_eodhd_token;
 
 use super::BASE_URL_SOCKET;
 
-/// Messages like
-//Ok(Text("{\"status_code\":200,\"message\":\"Authorized\"}"))
+/// For messages like
+/// Ok(Text("{\"status_code\":200,\"message\":\"Authorized\"}"))
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StatusMessage {
     pub status_code: u16,
@@ -50,6 +50,11 @@ pub struct EODHDRTChannels<T: std::fmt::Debug + Clone + Send + Sync + Deserializ
     pub tick_channel: tokio::sync::mpsc::Receiver<T>,
 }
 
+/// The initial function to call for setting up
+/// a websocket connection to EODHD's realtime offerings.
+/// One has to open different sockets for different kinds
+/// of realtime streams (Forex, Quotes etc.)
+/// * `T` - Type of ticks for the socket kind
 pub async fn create_socket_channel<
     T: std::fmt::Debug + Clone + Send + Sync + DeserializeOwned + 'static,
 >(

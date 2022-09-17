@@ -6,6 +6,8 @@ pub mod alternative;
 /// Helpful wrappers for serde to
 /// handle eodhd DateTime Formats
 pub mod datetime;
+/// Based on [eodhd
+/// docs](https://eodhistoricaldata.com/financial-apis/api-for-historical-data-and-volumes/)
 pub mod end_of_period;
 /// Based on [eodhd
 /// docs](https://eodhistoricaldata.com/financial-apis/stock-etfs-fundamental-data-feeds/)
