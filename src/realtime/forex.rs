@@ -19,7 +19,6 @@ pub struct EODHDForexRT {
     pub t: i64,
 }
 
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EODHDCryptoRT {
     /// symbol
@@ -27,7 +26,7 @@ pub struct EODHDCryptoRT {
     /// last price
     #[serde(with = "eodhd_string_float")]
     pub p: f64,
-    /// quantity of the trade 
+    /// quantity of the trade
     #[serde(with = "eodhd_string_float")]
     pub q: f64,
     /// daily change percentage (sometimes delivered as string from eodhd)

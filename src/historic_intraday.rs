@@ -1,6 +1,6 @@
-use std::error::Error;
-use serde::Deserialize;
 use super::{datetime::EODHDInterval, env_eodhd_token, BASE_URL};
+use serde::Deserialize;
+use std::error::Error;
 
 /// e.g.
 /// Timestamp,Gmtoffset,Datetime,Open,High,Low,Close,Volume
@@ -40,7 +40,6 @@ impl Default for EODHDHistoricIntraday {
     }
 }
 
-
 pub struct HistoricIntradayOptions {
     pub from: Option<i64>,
     pub to: Option<i64>,
@@ -69,28 +68,16 @@ pub async fn get_historic_intraday(
 
     let request = reqwest::get(url.clone()).await;
     match request {
-        Ok(request) => {
-            match request.json::<Vec<EODHDHistoricIntraday>>().await {
-                Ok(pre_eodhd_ticks) => {
-                        Ok(pre_eodhd_ticks)
-                },
-                Err(e) => { 
-                    log::error!(
-                        "UNABLE TO PARSE eodhd RESPONSE {:?}",
-                        e
-                    );
-                    Err(Box::new(e))
-                }
+        Ok(request) => match request.json::<Vec<EODHDHistoricIntraday>>().await {
+            Ok(pre_eodhd_ticks) => Ok(pre_eodhd_ticks),
+            Err(e) => {
+                log::error!("UNABLE TO PARSE eodhd RESPONSE {:?}", e);
+                Err(Box::new(e))
             }
         },
         Err(e) => {
-            log::error!(
-                "REQUEST TO EODHD FAILED \n{:?}\n with {:?}",
-                url,
-                e 
-            );
+            log::error!("REQUEST TO EODHD FAILED \n{:?}\n with {:?}", url, e);
             Err(Box::new(e))
-
         }
     }
 }

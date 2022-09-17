@@ -3,11 +3,11 @@ use std::{error::Error, fmt::Display};
 /// Based on [eodhd docs](
 /// https://eodhistoricaldata.com/financial-apis/category/alternative-data-financial-api/)
 pub mod alternative;
-/// Helpful wrappers for serde to 
+/// Helpful wrappers for serde to
 /// handle eodhd DateTime Formats
 pub mod datetime;
 pub mod end_of_period;
-/// Based on [eodhd 
+/// Based on [eodhd
 /// docs](https://eodhistoricaldata.com/financial-apis/stock-etfs-fundamental-data-feeds/)
 pub mod fundamentals;
 /// Based on [eodhd
