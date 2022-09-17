@@ -27,6 +27,7 @@ impl ToString for EODHDInterval {
 
 pub mod eodhd_serde_opt_date {
     use chrono::NaiveDate;
+    use log::error;
     use serde::{self, Deserialize, Deserializer, Serializer};
 
     const FORMAT: &str = "%Y-%m-%d";
@@ -47,10 +48,15 @@ pub mod eodhd_serde_opt_date {
     {
         let s = String::deserialize(deserializer)?;
         let parsed = NaiveDate::parse_from_str(&s, FORMAT);
-        if parsed.is_ok() {
-            return Ok(Some(parsed.unwrap()));
+        match parsed {
+            Ok(parsed) => {
+                Ok(Some(parsed))
+            },
+            Err(e) => {
+                error!("error parsing serde date {:?}", e);
+                Err(serde::de::Error::custom("faulty eodhd date"))
+            }
         }
-        Err(serde::de::Error::custom("faulty eodhd date"))
     }
 }
 
